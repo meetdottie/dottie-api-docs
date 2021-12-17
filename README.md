@@ -61,6 +61,6 @@ POST https://titanemployeesapi.azurewebsites.net/api/auth/SingleSignOn/0
 
 ## Perform requests
 
-All requests after acquiring app token must be sent with header ```Authorization: Bearer [APP_JWT]```;
+All requests after acquiring app token must be sent with header ```Authorization: Bearer [APP_TOKEN]```;
 
 Navigate through Meet Dottie, and check out what endpoints gets called. Later on we will expose a swagger file to use for generating a client.
