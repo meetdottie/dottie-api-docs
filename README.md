@@ -1,31 +1,35 @@
-# Meet Dottie API documentation
+# Meet Dottie REST-API documentation
 
-To be able to request Meet Dottie's API, you need to perform a few actions.
-First need to set up an API user, and you need to acquire an authentication token using the API users credentials.
+To be able to use Meet Dottie's API, you need to:
+1. Create an API user in Dottie (that will be using the API)
+2. Get an ID-token, using the credentials from above
+3. Get an APP-token, using the ID-token from above
+4. Use the API 🚀
 
-## Create API user
+All the endpoints are availible here: [API-documentation (Swagger)](https://api.dottie.no/api/swagger/index.html)
 
-1. Set up a new user
-2. Assign role to user
-    * You should only assign the API user the least amount of privileges needed to reach your goal with the integration.
+To authenticate, you need to perform two sequential calls to endpoints (points 2 and 3 above). 
 
-## Acquire authentication token
+## 1. Create API user
 
-To acquire an authentication token (app token), you need to perform two sequential calls to endpoints.
+Goto [settings > integrations](https://app.dottie.no/settings/integrations/services) in Meet Dottie and click the "API-user" button. It's availible if your have EDIT rights to Dottie Settings.
 
-1. Get id token
-2. Get app token
+This will show a window where you can create an API user that you wil be using the API on behalf of. The email of the user will be in the format dottie-api@yourdomain.com, and the password will be shown **once** to you. The API user will be assigned the roles `HR` and `ADMIN`. Check and modify priviliges to these roles accordingly in the [settings](https://app.dottie.no/settings/access)
 
-### Get id token
+If you need to invalidate the credentials or generate new you can use the same window.
 
-POST https://titanemployeesapi.azurewebsites.net/api/auth/login
+## 2. Acquire ID-token
+
+
+```POST https://titanemployeesapi.azurewebsites.net/api/auth/login```
+
 
 #### Request model
 
 ```json
 {
-    "email": "[EMAIL_ADRESS]",
-    "password": "[PASSWORD]"
+    "email": "my-email@domain.com",
+    "password": "hunter2"
 }
 ```
 
@@ -33,21 +37,21 @@ POST https://titanemployeesapi.azurewebsites.net/api/auth/login
 
 ```json
 {
-    "token": "[ID_TOKEN]"
+    "token": "eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauD ..."
 }
 ```
 
-Store this token, and use when getting app token
+This is the ID-token, it has a short lifespan and needs to be used in the next request
 
-### Get app token
+## 3. Exchange for APP-token
 
-POST https://titanemployeesapi.azurewebsites.net/api/auth/SingleSignOn/0
+```POST https://titanemployeesapi.azurewebsites.net/api/auth/singlesignon/0```
 
 #### Request model
 
 ```json
 {
-    "idToken": "[ID_TOKEN]"
+    "idToken": "{ID-TOKEN-FROM-ABOVE}"
 }
 ```
 
@@ -55,12 +59,28 @@ POST https://titanemployeesapi.azurewebsites.net/api/auth/SingleSignOn/0
 
 ```json
 {
-    "token": "[APP_TOKEN]"
+    "token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkExMjhHQ00ifQ.K52jFwAQJ ..."
 }
 ```
+What you recieve above is the APP-token, that can be used to access the API
 
-## Perform requests
+## 4. Perform requests
 
-All requests after acquiring app token must be sent with header ```Authorization: Bearer [APP_TOKEN]```;
+All requests after acquiring APP-token must be sent with the header
 
-Navigate through Meet Dottie, and check out what endpoints gets called. Later on we will expose a swagger file to use for generating a client.
+```Authorization: Bearer {APP_TOKEN}```
+
+from the example above, that would be:
+
+```Authorization: Bearer eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkExMjhHQ00ifQ.K52jFwAQJ ...```
+
+
+All the endpoints are availible here: [API-documentation (Swagger)](https://api.dottie.no/api/swagger/index.html)
+
+This is the same API as the Meet Dottie application uses, so if you are looking for a particular action, you can view the network requests in your browser (developer tools) and imitate what you see there, just remeber to use the token from this flow, and not the one in the browser.
+
+
+### Using other credentials
+If you dont wan't to use client credentials as this flow describes, and instead use your own ID prodvider - you can pass a avalid OAuth2 id_token issued from Azure AD or Google Workspace to authenticate against the enpoint in pt 3. These requirements need to be met:
+- The user (e-mail) in the id_token needs to be present in the Dottie tenant
+- The Dottie application needs to be approved with your ID provider. If your users use already user Azure AD or Google Workspace to login, this has been completed.
