@@ -84,3 +84,4 @@ This is the same API as the Meet Dottie application uses, so if you are looking 
 If you dont wan't to use client credentials as this flow describes, and instead use your own ID prodvider - you can pass a avalid OAuth2 id_token issued from Azure AD or Google Workspace to authenticate against the enpoint in pt 3. These requirements need to be met:
 - The user (e-mail) in the id_token needs to be present in the Dottie tenant
 - The Dottie application needs to be approved with your ID provider. If your users use already user Azure AD or Google Workspace to login, this has been completed.
+- The audience-claim in the token needs to have the Dottie application ID set. Please contact us to recieve the respective providers ID
