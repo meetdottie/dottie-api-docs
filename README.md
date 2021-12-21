@@ -75,7 +75,7 @@ from the example above, that would be:
 ```Authorization: Bearer eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkExMjhHQ00ifQ.K52jFwAQJ ...```
 
 
-All the endpoints are availible here: [API-documentation (Swagger)](https://api.dottie.no/api/swagger/index.html)
+All the endpoints are availible here: [API-documentation (Swagger)](https://api.dottie.no/swagger/index.html)
 
 This is the same API as the Meet Dottie application uses, so if you are looking for a particular action, you can view the network requests in your browser (developer tools) and imitate what you see there, just remeber to use the token from this flow, and not the one in the browser.
 
