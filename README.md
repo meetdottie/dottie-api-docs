@@ -28,7 +28,7 @@ If you need to invalidate the credentials or generate new you can use the same w
 
 ```json
 {
-    "email": "my-email@domain.com",
+    "email": "dottie-api@yourdomain.com",
     "password": "hunter2"
 }
 ```
