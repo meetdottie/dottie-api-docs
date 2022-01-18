@@ -26,7 +26,7 @@ If you need to invalidate the credentials or generate new, you can use the same 
 
 #### Request model
 
-```json
+```
 {
     "email": "dottie-api@yourdomain.com",
     "password": "hunter2"
@@ -35,7 +35,7 @@ If you need to invalidate the credentials or generate new, you can use the same 
 
 #### Response model
 
-```json
+```
 {
     "token": "eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauD ..."
 }
@@ -49,7 +49,7 @@ This is the ID-token, it has a short lifespan and needs to be used in the next r
 
 #### Request model
 
-```json
+```
 {
     "idToken": "{ID-TOKEN-FROM-ABOVE}"
 }
@@ -57,7 +57,7 @@ This is the ID-token, it has a short lifespan and needs to be used in the next r
 
 #### Response model
 
-```json
+```
 {
     "token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkExMjhHQ00ifQ.K52jFwAQJ ..."
 }
