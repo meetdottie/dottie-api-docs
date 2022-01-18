@@ -6,7 +6,7 @@ To be able to use Meet Dottie's API, you need to:
 3. Get an APP-token, using the ID-token from above
 4. Use the API 🚀
 
-All the endpoints are availible here: [API-documentation (Swagger)](https://api.dottie.no/api/swagger/index.html)
+All the endpoints are availible here: [API-documentation (Swagger)](https://api.dottie.no/swagger/index.html)
 
 To authenticate, you need to perform two sequential calls to endpoints (points 2 and 3 above). 
 
