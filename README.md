@@ -1,35 +1,28 @@
 # Meet Dottie REST-API documentation
 
-To be able to use Meet Dottie's API, you need to:
-1. Create an API user in Dottie (that will be using the API)
-2. Get an ID-token, using the credentials from above
-3. Get an APP-token, using the ID-token from above
-4. Use the API 🚀
+Steps to use Dotties API:
+1. Create an API-user in Dottie
+2. Authenticate
+3. Use the API 🚀
 
-All the endpoints are available here: [API-documentation (Swagger)](https://api.dottie.no/swagger/index.html)
-
-To authenticate, you need to perform two sequential calls to endpoints (points 2 and 3 above). 
+All endpoints are documented here: [API-documentation (Swagger)](https://api.dottie.no/swagger/index.html)
 
 ## 1. Create API user
 
-Goto [settings > integrations](https://app.dottie.no/settings/integrations/services) in Meet Dottie and click the "API-user" button. It's available if your have EDIT rights to Dottie Settings.
+Goto [settings > integrations > Dotties API](https://app.dottie.no/settings/integrations/api) in Meet Dottie and click the "Create API-user" button. It's available if your have EDIT access rights to Dottie Settings, and enables you to create one or more Dottie users that you will be using the API on behalf of
 
-This will show a window where you can create an API user that you will be using the API on behalf of. The email of the user will be in the format dottie-api@yourdomain.com, and the password will be shown **once** to you. The API user will be assigned the roles `HR` and `ADMIN`. Check and modify privileges to these roles accordingly in the [settings](https://app.dottie.no/settings/access)
+You will need to copy the API key from the window when you create the user, since it will **only be showed to you once**. The API user will by default be assigned the role `ADMIN`, and will have access rights according to the regular access management settings. You can assign roles as you wish to this user, or regenerate the API-key by clicking edit.
 
-If you need to invalidate the credentials or generate new, you can use the same window.
+## 2. Authenticate
 
-## 2. Acquire ID-token
-
-
-```POST https://api.dottie.no/api/auth/login```
-
+```POST https://api.dottie.no/api/auth/apikey```
 
 #### Request model
 
 ```
 {
-    "email": "dottie-api@yourdomain.com",
-    "password": "hunter2"
+    "clientId": "CLIENT ID FROM ABOVE",
+    "apiKey": "API-KEY FROM ABOVE"
 }
 ```
 
@@ -41,36 +34,13 @@ If you need to invalidate the credentials or generate new, you can use the same 
 }
 ```
 
-This is the ID-token, it has a short lifespan and needs to be used in the next request
+## 3. Perform requests
 
-## 3. Exchange for APP-token
+All requests after acquiring the auth-token must be sent with the header
 
-```POST https://api.dottie.no/api/auth/singlesignon/0```
+```Authorization: Bearer TOKEN FROM ABOVE```
 
-#### Request model
-
-```
-{
-    "idToken": "{ID-TOKEN-FROM-ABOVE}"
-}
-```
-
-#### Response model
-
-```
-{
-    "token": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkExMjhHQ00ifQ.K52jFwAQJ ..."
-}
-```
-What you receive above is the APP-token, that can be used to access the API
-
-## 4. Perform requests
-
-All requests after acquiring APP-token must be sent with the header
-
-```Authorization: Bearer {APP_TOKEN}```
-
-from the example above, that would be:
+from the example above, that header would be:
 
 ```Authorization: Bearer eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkExMjhHQ00ifQ.K52jFwAQJ ...```
 
@@ -79,9 +49,8 @@ All the endpoints are available here: [API-documentation (Swagger)](https://api.
 
 This is the same API as the Meet Dottie application uses, so if you are looking for a particular action, you can view the network requests in your browser (developer tools) and imitate what you see there, just remember to use the token from this flow, and not the one in the browser.
 
-
 ### Using other credentials
-If you don't want to use client credentials as this flow describes, and instead use your own ID provider - you can pass a valid OAuth2 id_token issued from Azure AD or Google Workspace to authenticate against the endpoint in pt 3. These requirements need to be met:
+If you don't want to use client credentials as this flow describes, and instead use your own ID provider - you can pass a valid OAuth2 id_token issued from Azure AD or Google Workspace to authenticate against the endpoint /auth/SingleSignOn. These requirements need to be met:
 - The user (e-mail) in the id_token needs to be present in the Dottie tenant
 - The Dottie application needs to be approved with your ID provider. If your users use already user Azure AD or Google Workspace to login, this has been completed.
 - The audience-claim in the token needs to have the Dottie application ID set. Please contact us to receive the respective providers ID
