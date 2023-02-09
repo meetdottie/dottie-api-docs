@@ -1,9 +1,9 @@
 # Meet Dottie REST-API documentation
 
-Steps to use Dotties API:
-1. Create an API-user in Dottie
-2. Authenticate
-3. Use the API 🚀
+## TL;DR
+1. Create an [API-user in Dottie](https://app.dottie.no/settings/integrations/api), note the API-key
+2. Authenticate by posting the credentials to `api.dottie.no/api/auth/apikey`
+3. Use the [API](https://api.dottie.no/swagger/index.html) 🚀 (with bearer token from above as a header)
 
 All endpoints are documented here: [API-documentation (Swagger)](https://api.dottie.no/swagger/index.html)
 
