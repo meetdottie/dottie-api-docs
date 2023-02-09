@@ -21,7 +21,7 @@ If you need to invalidate the credentials or generate new, you can use the same 
 ## 2. Acquire ID-token
 
 
-```POST https://titanemployeesapi.azurewebsites.net/api/auth/login```
+```POST https://api.dottie.no/api/auth/login```
 
 
 #### Request model
@@ -45,7 +45,7 @@ This is the ID-token, it has a short lifespan and needs to be used in the next r
 
 ## 3. Exchange for APP-token
 
-```POST https://titanemployeesapi.azurewebsites.net/api/auth/singlesignon/0```
+```POST https://api.dottie.no/api/auth/singlesignon/0```
 
 #### Request model
 
